@@ -1,6 +1,27 @@
 var db = require('../db');
 
 module.exports = {
-  getAll: function () {}, // a function which produces all the messages
-  create: function () {} // a function which can be used to insert a message into the database
+  getAll: function (callback) {
+    db.connect.query('SELECT * FROM messages', [], (err, results) => {
+      if (err) {
+        callback(err);
+      } else {
+        console.log('getAll: results', results);
+        callback(null, results);
+      }
+    });
+  }, // a function which produces all the messages
+  create: function ({username, roomname, text}, callback) {
+    // var username = obj.username;
+    // var roomname = obj.roomname;
+    // var text = obj.text;
+    var query = `INSERT INTO messages ( username, roomname, text) VALUES ( '${username}', '${roomname}', '${text}' )`;
+    db.connect.query(query, [], (err) => {
+      if (err) {
+        callback(err);
+      } else {
+        callback(null, {username, roomname, text});
+      }
+    });
+  } // a function which can be used to insert a message into the database
 };
