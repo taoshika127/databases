@@ -1,3 +1,4 @@
+
 var models = require('../models');
 
 module.exports = {
@@ -6,16 +7,18 @@ module.exports = {
       if (err) {
         throw err;
       } else {
-        res.send(results);
+        res.statusCode = 200;
+        res.send(JSON.stringify(results));
       }
     });
   },
   post: function (req, res) {
-    models.users.create(req.body, (err) => {
+    models.users.create(req.body, (err, results) => {
       if (err) {
         throw err;
       } else {
-        res.send(req.body);
+        res.statusCode = 201;
+        res.send(results);
       }
     });
   }

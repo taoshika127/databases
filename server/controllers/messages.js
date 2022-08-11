@@ -6,16 +6,18 @@ module.exports = {
       if (err) {
         throw err;
       } else {
-        res.send(results);
+        res.statusCode = 200;
+        res.send(JSON.stringify(results));
       }
     });
   }, // a function which handles a get request for all messages
   post: function (req, res) {
-    models.messages.create(req.body, (err, results) => {
+    models.messages.create(req.body, (err) => {
       if (err) {
         throw err;
       } else {
-        res.send(results);
+        res.statusCode = 201;
+        res.send(req.body);
       }
     });
   } // a function which handles posting a message to the database
