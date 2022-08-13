@@ -13,6 +13,7 @@ module.exports = {
     });
   },
   post: function (req, res) {
+    console.log('non-sequelize post - users', req.body);
     models.users.create(req.body, (err, results) => {
       if (err) {
         throw err;

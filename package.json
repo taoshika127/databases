@@ -10,6 +10,7 @@
   },
   "scripts": {
     "start": "npx nodemon ./server/app.js",
+    "start-og": "npx nodemon ./server-pure-sql/server/app.js",
     "start:es6": "npx babel-node ./server/app.js",
     "start:client": "npx live-server",
     "test": "jest",

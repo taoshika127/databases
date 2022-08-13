@@ -17,6 +17,7 @@ module.exports = {
   },
 
   post: (req, res) => {
+    console.log('sequelize post - users', req.body);
     User.sync()
       .then(() => {
         User.create(req.body)
@@ -24,7 +25,7 @@ module.exports = {
             User.findAll()
               .then((messages) => {
                 res.statusCode = 201;
-                console.log('messages', messages);
+                //console.log('messages', messages);
                 res.send(JSON.stringify(messages));
               })
               .catch(err => {

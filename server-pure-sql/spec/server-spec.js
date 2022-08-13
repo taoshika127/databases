@@ -15,11 +15,6 @@ describe('Persistent Node Chat Server', () => {
     password: '',
     database: 'chat'
   });
-  // {
-  //   user: 'student',
-  //   password: 'student',
-  //   database: 'chat',
-  // }
 
   beforeAll((done) => {
     dbConnection.connect();
@@ -59,6 +54,7 @@ describe('Persistent Node Chat Server', () => {
             throw err;
           }
           // Should have one result:
+          console.log('results', results);
           expect(results.length).toEqual(1);
 
           // TODO: If you don't have a column named text, change this test.
