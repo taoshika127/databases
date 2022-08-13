@@ -12,12 +12,13 @@ module.exports = {
     });
   }, // a function which handles a get request for all messages
   post: function (req, res) {
-    models.messages.create(req.body, (err) => {
+    console.log(req.body);
+    models.messages.create(req.body, (err, results) => {
       if (err) {
         throw err;
       } else {
         res.statusCode = 201;
-        res.send(req.body);
+        res.send(JSON.stringify(results));
       }
     });
   } // a function which handles posting a message to the database

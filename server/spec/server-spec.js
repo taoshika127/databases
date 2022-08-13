@@ -71,6 +71,28 @@ describe('Persistent Node Chat Server', () => {
       });
   });
 
+  it('Should delete all messages from the DB', (done) => {
+    const name = 'Valjean';
+    const queryString = `DELETE FROM messages WHERE username = '${name}'`;
+    const queryArgs = [];
+
+    dbConnection.query(queryString, queryArgs, (err) => {
+      if (err) {
+        throw err;
+      }
+
+      axios.get(`${API_URL}/messages`)
+        .then((response) => {
+          const messageLog = response.data;
+          expect(messageLog).toEqual([]);
+          done();
+        })
+        .catch((err) => {
+          throw err;
+        });
+    });
+  });
+
   it('Should output all messages from the DB', (done) => {
 
     dbConnection.query(`truncate ${tablename}`, done);
@@ -100,4 +122,6 @@ describe('Persistent Node Chat Server', () => {
         });
     });
   });
+
+
 });

@@ -17,8 +17,10 @@ var MessagesView = {
   },
 
   renderMessage: function(message) {
+    console.log('message', message);
     var $message = MessageView.render(message);
     MessagesView.$chats.prepend($message);
+
   },
 
   handleClick: function(event) {

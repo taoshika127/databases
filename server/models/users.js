@@ -13,11 +13,11 @@ module.exports = {
   },
   create: function ({username}, callback) {
     var query = `INSERT INTO users ( username ) VALUES ( '${username}' )`;
-    db.connect.query(query, [], (err) => {
+    db.connect.query(query, [], (err, results) => {
       if (err) {
         callback(err);
       } else {
-        callback(null, {username});
+        callback(null, results);
       }
     });
   }
