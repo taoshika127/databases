@@ -6,14 +6,14 @@ const axios = require('axios');
 
 const API_URL = 'http://127.0.0.1:3000/classes';
 
-const tablename = 'Messages';
+const tablename = 'messages';
 
 describe('Persistent Node Chat Server', () => {
   const dbConnection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: '',
-    database: 'chatter'
+    database: 'chat'
   });
   // {
   //   user: 'student',
@@ -51,7 +51,7 @@ describe('Persistent Node Chat Server', () => {
 
         /* TODO: You might have to change this test to get all the data from
          * your message table, since this is schema-dependent. */
-        const queryString = 'SELECT * FROM Messages';
+        const queryString = 'SELECT * FROM messages';
         const queryArgs = [];
 
         dbConnection.query(queryString, queryArgs, (err, results) => {
@@ -59,7 +59,6 @@ describe('Persistent Node Chat Server', () => {
             throw err;
           }
           // Should have one result:
-          console.log('result', results);
           expect(results.length).toEqual(1);
 
           // TODO: If you don't have a column named text, change this test.
@@ -72,57 +71,57 @@ describe('Persistent Node Chat Server', () => {
       });
   });
 
-  // it('Should delete all messages from the DB', (done) => {
-  //   const name = 'Valjean';
-  //   const queryString = `DELETE FROM Messages WHERE username = '${name}'`;
-  //   const queryArgs = [];
+  it('Should delete all messages from the DB', (done) => {
+    const name = 'Valjean';
+    const queryString = `DELETE FROM messages WHERE username = '${name}'`;
+    const queryArgs = [];
 
-  //   dbConnection.query(queryString, queryArgs, (err) => {
-  //     if (err) {
-  //       throw err;
-  //     }
+    dbConnection.query(queryString, queryArgs, (err) => {
+      if (err) {
+        throw err;
+      }
 
-  //     axios.get(`${API_URL}/messages`)
-  //       .then((response) => {
-  //         const messageLog = response.data;
-  //         expect(messageLog).toEqual([]);
-  //         done();
-  //       })
-  //       .catch((err) => {
-  //         throw err;
-  //       });
-  //   });
-  // });
+      axios.get(`${API_URL}/messages`)
+        .then((response) => {
+          const messageLog = response.data;
+          expect(messageLog).toEqual([]);
+          done();
+        })
+        .catch((err) => {
+          throw err;
+        });
+    });
+  });
 
-  // it('Should output all messages from the DB', (done) => {
+  it('Should output all messages from the DB', (done) => {
 
-  //   dbConnection.query(`truncate ${tablename}`, done);
-  //   // Let's insert a message into the db
-  //   const roomname = 'lobby';
-  //   const text = 'hello';
-  //   const name = 'Sandy';
-  //   const queryString = `INSERT INTO Messages ( username, roomname, text) VALUES ( '${name}', '${roomname}', '${text}' )`;
-  //   const queryArgs = [];
-  //   /* TODO: The exact query string and query args to use here
-  //    * depend on the schema you design, so I'll leave them up to you. */
-  //   dbConnection.query(queryString, queryArgs, (err) => {
-  //     if (err) {
-  //       throw err;
-  //     }
+    dbConnection.query(`truncate ${tablename}`, done);
+    // Let's insert a message into the db
+    const roomname = 'lobby';
+    const text = 'hello';
+    const name = 'Sandy';
+    const queryString = `INSERT INTO messages ( username, roomname, text) VALUES ( '${name}', '${roomname}', '${text}' )`;
+    const queryArgs = [];
+    /* TODO: The exact query string and query args to use here
+     * depend on the schema you design, so I'll leave them up to you. */
+    dbConnection.query(queryString, queryArgs, (err) => {
+      if (err) {
+        throw err;
+      }
 
-  //     // Now query the Node chat server and see if it returns the message we just inserted:
-  //     axios.get(`${API_URL}/messages`)
-  //       .then((response) => {
-  //         const messageLog = response.data;
-  //         expect(messageLog[0].text).toEqual(text);
-  //         expect(messageLog[0].roomname).toEqual(roomname);
-  //         done();
-  //       })
-  //       .catch((err) => {
-  //         throw err;
-  //       });
-  //   });
-  // });
+      // Now query the Node chat server and see if it returns the message we just inserted:
+      axios.get(`${API_URL}/messages`)
+        .then((response) => {
+          const messageLog = response.data;
+          expect(messageLog[0].text).toEqual(text);
+          expect(messageLog[0].roomname).toEqual(roomname);
+          done();
+        })
+        .catch((err) => {
+          throw err;
+        });
+    });
+  });
 
 
 });

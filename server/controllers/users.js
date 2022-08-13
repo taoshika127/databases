@@ -1,25 +1,36 @@
-
-var models = require('../models');
+var { db, User, Message } = require('../../orm-resources/orm-example');
 
 module.exports = {
-  get: function (req, res) {
-    models.users.getAll((err, results) => {
-      if (err) {
-        throw err;
-      } else {
-        res.statusCode = 200;
-        res.send(JSON.stringify(results));
-      }
-    });
+  get: (req, res) => {
+    User.sync()
+      .then(()=> {
+        User.findAll()
+          .then((messages) => {
+            res.statusCode = 200;
+            res.send(JSON.stringify(messages));
+          })
+          .catch(err => {
+            console.error(err);
+          });
+      });
+
   },
-  post: function (req, res) {
-    models.users.create(req.body, (err, results) => {
-      if (err) {
-        throw err;
-      } else {
-        res.statusCode = 201;
-        res.send(results);
-      }
-    });
+
+  post: (req, res) => {
+    User.sync()
+      .then(() => {
+        User.create(req.body)
+          .then(() => {
+            User.findAll()
+              .then((messages) => {
+                res.statusCode = 201;
+                console.log('messages', messages);
+                res.send(JSON.stringify(messages));
+              })
+              .catch(err => {
+                console.error(err);
+              });
+          });
+      });
   }
 };
