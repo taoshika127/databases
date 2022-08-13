@@ -20,6 +20,7 @@ module.exports = {
         console.log('post - results', results);
         res.statusCode = 201;
         res.send(JSON.stringify(results));
+        console.log('');
       }
     });
   } // a function which handles posting a message to the database
